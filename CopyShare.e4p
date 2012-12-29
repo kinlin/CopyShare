@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project CopyShare -->
-<!-- Saved: 2012-12-27, 18:29:19 -->
+<!-- Saved: 2012-12-29, 21:12:22 -->
 <!-- Copyright (C) 2012 kinlin, teensoul@163.com -->
 <Project version="4.6">
   <Language></Language>
@@ -14,6 +14,21 @@
   <Sources>
     <Source>root.py</Source>
     <Source>test1.py</Source>
+    <Source>B01.jpg</Source>
+    <Source>B02.jpg</Source>
+    <Source>B03.jpg</Source>
+    <Source>B04.jpg</Source>
+    <Source>B05.jpg</Source>
+    <Source>B06.jpg</Source>
+    <Source>B07.jpg</Source>
+    <Source>B08.jpg</Source>
+    <Source>B09.jpg</Source>
+    <Source>fontandString.py</Source>
+    <Source>fontandString.pyc</Source>
+    <Source>readme.txt</Source>
+    <Source>README.md</Source>
+    <Source>test.py</Source>
+    <Source>view.py</Source>
   </Sources>
   <Forms>
   </Forms>
