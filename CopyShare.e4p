@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project CopyShare -->
-<!-- Saved: 2012-12-29, 21:12:22 -->
-<!-- Copyright (C) 2012 kinlin, teensoul@163.com -->
+<!-- Saved: 2013-01-07, 21:09:28 -->
+<!-- Copyright (C) 2013 kinlin, teensoul@163.com -->
 <Project version="4.6">
   <Language></Language>
   <ProgLanguage mixed="0">Python</ProgLanguage>
@@ -29,6 +29,8 @@
     <Source>README.md</Source>
     <Source>test.py</Source>
     <Source>view.py</Source>
+    <Source>command.py</Source>
+    <Source>axis.py</Source>
   </Sources>
   <Forms>
   </Forms>

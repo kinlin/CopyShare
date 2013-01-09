@@ -1,15 +1,23 @@
+#!/usr/bin/env python2
 # # -*- coding: utf-8 -*-
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import sys
 import view
-#import linuxcnc
+import linuxcnc
+import command
 
-modeString = (u"手动模式", u"单步模式", u"自动模式", u"程序编辑", u"常量编辑", u"模具编辑", u"系统设置", u"帮助")
-funcViewTitles = (u'功能按钮-手动模式', u'功能按钮-单步模式', u'功能按钮-自动模式',
-                  u'功能按钮-程序编辑', u'功能按钮-常量编辑',
-                  u'功能按钮-模具编辑', u'功能按钮-系统设置', u'功能按钮-帮助')
-                  
+modeString = (u"手动模式", u"单步模式", u"自动模式", u"程序编辑", 
+                    u"常量编辑", u"模具编辑", u"系统设置", u"帮助")
+funcViewTitles = (u'功能按钮-手动模式', u'功能按钮-单步模式', 
+                        u'功能按钮-自动模式', u'功能按钮-程序编辑', 
+                        u'功能按钮-常量编辑', u'功能按钮-模具编辑', 
+                        u'功能按钮-系统设置', u'功能按钮-帮助')
+manulFuncBtnNames = (u'选定Y轴 ', u'正向运动', u'反向运动',
+                                  u'  回零  ', u'  停止  ')  
+
+stepFuncBtnNames = ( u'前道折弯', u'后道折弯', u'折弯准备',  
+                                u'折弯开始', u'折弯停止')
 class RootWindow(QWidget):
     def __init__(self, parent = None):
         super(RootWindow, self).__init__(parent)
@@ -22,9 +30,9 @@ class RootWindow(QWidget):
          self.vf1 = QGroupBox()
          self.vf1.setTitle(u"模式切换")
          self.vf2 = QGroupBox()
-         self.vf2.setTitle("C")
+         self.vf2.setTitle(u"欢迎使用")
          self.vf3 = QGroupBox()
-         self.vf3.setTitle("D")
+         self.vf3.setTitle(u"欢迎使用")
          for i in range(4):
              self.viewframe.append(QWidget())
          
@@ -37,7 +45,8 @@ class RootWindow(QWidget):
          viewgrid.addWidget(self.vf3, 19, 15, 3, 7)
          self.setLayout(viewgrid)
          self.setWindowTitle(u"全电动折弯机")
-#分别设置四个框架，其中vf0 用 stackWidget实现    vf1为垂直按键     vf2为底部功能按键     vf3为关机，伺服之类
+#分别设置四个框架，其中vf0 用 stackWidget实现    
+#vf1为垂直按键     vf2为底部功能按键     vf3为关机，伺服之类
 #----------------------------------------------左上模块
          vf0layout = QGridLayout()       
          
@@ -63,24 +72,41 @@ class RootWindow(QWidget):
          for i in range(8):
              self.modebn.append(QPushButton(modeString[i]))
          for i in range(8):
+             self.modebn[i].setFixedSize(100,45)
+         for i in range(8):
              self.vf1layout.insertWidget(i, self.modebn[i])
          self.vf1layout.setMargin(0)
          self.vf1.setLayout(self.vf1layout)
 
 #-------------------------------------------------左下模块
-         vf2bt1 = QPushButton(u"测试1")
-         vf2bt2 = QPushButton(u"测试2")
-         vf2bt3 = QPushButton(u"测试3")
-         
+         self.vf2view1 = QWidget()
+         self.manualFunBt = []
+         for i in range(len(manulFuncBtnNames)):
+             self.manualFunBt.append(QPushButton(manulFuncBtnNames[i]))
+         self.manualFunBtview = QHBoxLayout()
+         for i in range(len(manulFuncBtnNames)):
+             self.manualFunBtview.addWidget(self.manualFunBt[i])
+             
+         self.vf2view2 = QWidget()
+         self.StepViewFunBt = []
+         for i in range(len(stepFuncBtnNames)):
+             self.StepViewFunBt.append(QPushButton(stepFuncBtnNames[i]))
+         self.setpviewFunBtview = QHBoxLayout()
+         for i in range(len(stepFuncBtnNames)):
+             self.setpviewFunBtview.addWidget(self.StepViewFunBt[i])
+             
+         self.vf2view1.setLayout(self.manualFunBtview)
+         self.vf2view2.setLayout(self.setpviewFunBtview)
+       
          self.vf2layout = QGridLayout()
-         self.vf2layout.addWidget(vf2bt1, 0, 0)
-         self.vf2layout.addWidget(vf2bt2, 0, 1)
-         self.vf2layout.addWidget(vf2bt3, 0, 2)
+         self.vf2Stackview = QStackedWidget()
+         self.vf2Stackview.addWidget(self.vf2view1)
+         self.vf2Stackview.addWidget(self.vf2view2)
          
+         self.vf2layout.addWidget(self.vf2Stackview) 
+         self.vf2layout.setMargin(0)
          self.vf2.setLayout(self.vf2layout)
          
-
-
 #-------------------------------------------------右下模块
          vf3bt1 = QPushButton(u"伺服")
          vf3bt2 = QPushButton(u"关机")
@@ -93,11 +119,7 @@ class RootWindow(QWidget):
          self.vf3.setLayout(vf3layout)
          
          for i in range(8):
-             self.connect(self.modebn[i], SIGNAL("clicked()"), self.clicked)
-             
-    def setviewframe(self):     
-        viewframe = view.ManualView()
-    
+             self.connect(self.modebn[i], SIGNAL("clicked()"), self.clicked)  
          
     def clicked(self):
         button = self.sender()
@@ -105,14 +127,15 @@ class RootWindow(QWidget):
             return
         index = self.vf1layout.indexOf(button)
         self.vf0viewwid.setCurrentIndex(index + 1)
+        self.vf2Stackview.setCurrentIndex(index)
         self.vf0.setTitle(modeString[index])
-###################################
-#布局右边的按钮
-#####################
-class viewManager(QWidget):
-    def __init__(self, parent = None):
-        super(viewManager, self).__init__(parent)  
-            
+        self.vf2.setTitle(funcViewTitles[index])
+    def setCommands(self, cmds):
+        self.command = cmds
+        self.viewframe1(cmds)
+    def updateStatus(self):
+        pass
+#        self.viewframe1.updateStatus()
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     form = RootWindow()
