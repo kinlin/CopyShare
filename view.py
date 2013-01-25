@@ -2,14 +2,33 @@
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+class ViewManager(QWidget):
+  def __init__(self, parent = None):
+    super(ViewManager, self).__init__(parent)
+    self.parent = parent
+    self.vf0layout = QGridLayout()
+    self.views = QStackedWidget()
+    self.views.addWidget(ManualView(flag = 1))
+    self.views.addWidget(StepView())
+    self.views.addWidget(AutoView())
+    self.views.addWidget(Welcome())
+    self.views.setCurrentIndex(3)
+    self.vf0layout.addWidget(self.views)
+    self.vf0layout.setMargin(0)
+    self.parent.setLayout(self.vf0layout)
+  def setviewIndex(self, i=None):
+    return self.views.setCurrentIndex(i)
+  def setcommand(self, cmds):
+    self.command = cmds    
+    
 class Welcome(QWidget):
   def __init__(self, parent = None):
     super(Welcome, self).__init__(parent)
     
     
     self.iconlabel0 = QLabel()
-#    self.vf0Img0 = QPixmap("E:\CopyShare\B01.jpg")
-    self.vf0Img0 = QPixmap("/home/kinlin/CopyShare/B01.jpg")
+    self.vf0Img0 = QPixmap("E:\CopyShare\B01.jpg")
+#    self.vf0Img0 = QPixmap("/home/kinlin/CopyShare/B01.jpg")
     self.iconlabel0.setPixmap(self.vf0Img0)
     self.iconlabel0.setMargin(0)
     layout = QGridLayout()
@@ -18,8 +37,9 @@ class Welcome(QWidget):
     self.setLayout(layout)
     
 class ManualView(QWidget):
-  def __init__(self, parent = None):
+  def __init__(self, parent = None, flag=None):
     super(ManualView, self).__init__(parent)
+    self.flag = flag
     self.InfoBox = QGroupBox()
     self.InfoBox.setTitle(u"实时信息显示")
     self.AlarmBox = QGroupBox()

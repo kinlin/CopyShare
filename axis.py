@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 # # -*- coding: utf-8 -*-
-import linuxcnc
+#import linuxcnc
 import sys,  os , time
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
