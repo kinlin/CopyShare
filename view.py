@@ -1,7 +1,8 @@
 # # -*- coding: utf-8 -*-
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-
+from fontandString import *
+import ui_PosInfo
 class ViewManager(QWidget):
   def __init__(self, parent = None):
     super(ViewManager, self).__init__(parent)
@@ -21,14 +22,19 @@ class ViewManager(QWidget):
   def setcommand(self, cmds):
     self.command = cmds    
     
+class PosInfo(QWidget, ui_PosInfo.Ui_PosInfo):
+    def __init__(self, parent = None):
+        super(PosInfo, self).__init__(parent)
+        self.setupUi(self)
+
 class Welcome(QWidget):
   def __init__(self, parent = None):
     super(Welcome, self).__init__(parent)
     
     
     self.iconlabel0 = QLabel()
-    self.vf0Img0 = QPixmap("E:\CopyShare\B01.jpg")
-#    self.vf0Img0 = QPixmap("/home/kinlin/CopyShare/B01.jpg")
+#    self.vf0Img0 = QPixmap("E:\CopyShare\B01.jpg")
+    self.vf0Img0 = QPixmap("/home/kinlin/CopyShare/B01.jpg")
     self.iconlabel0.setPixmap(self.vf0Img0)
     self.iconlabel0.setMargin(0)
     layout = QGridLayout()
@@ -69,24 +75,30 @@ class ManualView(QWidget):
     manualgrid.addWidget(self.ZScaleBox, 3, 0, 1, 2)
     manualgrid.addWidget(self.VScaleBox, 3, 2, 1, 2)
     manualgrid.addWidget(self.GNBox, 3, 4, 1, 2)
-    
+    manualgrid.setContentsMargins(0, 5, 0, 0)
 #   手动模式总体布局
     self.setLayout(manualgrid)
 
 #   信息显示模块
-    self.Xpos = QLCDNumber()
-    self.Ypos = QLCDNumber()
-    self.Zpos = QLCDNumber()
-    self.Apos = QLCDNumber()
+#    self.pos= []
+#    self.posInfo = []
+#    self.unitmm = []
+#    for i in range(4):
+#        self.posInfo.append(QLCDNumber())
+#    for i in range(4):
+#        self.pos.append(QLabel(AXISES[i]))
+#    for i in range(4):
+#        self.unitmm.append(QLabel('mm'))
     self.infolayout = QGridLayout()
-    self.infolayout.addWidget(self.Xpos, 0, 0)
-    self.infolayout.addWidget(self.Ypos, 0, 1)
-    self.infolayout.addWidget(self.Zpos, 1, 0)
-    self.infolayout.addWidget(self.Apos, 1, 1)
-
-    
+#    self.infolayout.addWidget(self.pos[0], 0, 0)
+#    self.infolayout.addWidget(self.pos[1], 0, 1)
+#    self.infolayout.addWidget(self.pos[2], 1, 0)
+#    self.infolayout.addWidget(self.pos[3], 1, 1)
+    self.posinfo = PosInfo()
+    self.infolayout.addWidget(self.posinfo)
+    self.infolayout.setContentsMargins(15, 0, 0, 0)
     self.InfoBox.setLayout(self.infolayout)
-    
+#    self.posinfo.connect(form, )
     def setCommands(self, cmds):
         self.command = cmds
     def updateStatus(self):

@@ -11,7 +11,6 @@ from stop import *
 #import linuxcnc
 import command
 
-
 class RootWindow(QWidget):
     def __init__(self, parent = None):
         super(RootWindow, self).__init__(parent)

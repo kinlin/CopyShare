@@ -1,4 +1,9 @@
 # # -*- coding: utf-8 -*-
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+#------字体-----
+font1 = QFont("Courier", 15)
+font1.setWeight(QFont.Black)
 make4view = (u"欢迎使用NO1", u"模式切换NO2", u"欢迎使用NO3", u"欢迎使用NO4")
 modeString = (u"手动模式", u"单步模式", u"自动模式", u"程序编辑", 
                     u"常量编辑", u"模具编辑", u"系统设置", u"帮助")
@@ -11,3 +16,6 @@ manulFuncBtnNames = ( u'正向运动', u'反向运动',
 menuBns = (u'选定X轴', u'选定Y轴', u'选定Z轴', u'选定A轴', u'选定B轴', u'选定C轴')
 stepFuncBtnNames = ( u'前道折弯', u'后道折弯', u'折弯准备',  
                                 u'折弯开始', u'折弯停止')
+AXISES = ('Y=', 'X=', 'R=', 'V=', 'Z1', 'Z2')
+
+softFunBn = (u'清除', u'退格', u'确定', u'取消', u"数字键盘")
